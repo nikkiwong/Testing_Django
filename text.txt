@@ -1,0 +1,12 @@
+1. handles URLs yelp.com -- codingforentrepreneurs.com/projects/30-days-python
+2. Returns responses relted to the URL
+3. Remebers things
+
+does this through apps, which are self contained (similar to modules) inside a Django project.
+
+accounts -- user "django app"
+videos -- 'django app' 
+analytics
+menu listings
+
+because everything is handled in URLs, need to put view into a URL (therefore go to urls.py in settings)
