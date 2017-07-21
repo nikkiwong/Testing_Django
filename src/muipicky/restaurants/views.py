@@ -6,13 +6,13 @@ from django.shortcuts import render
 # function based view
    
 def home(request):
-    num = 0
+    num = None
     some_list = [
         random.randint(0, 10000000),
         random.randint(0, 10000000),
         random.randint(0, 10000000)
     ]
-    condition_bool_item = True
+    condition_bool_item = False
     if condition_bool_item:
         num = random.randint(0, 10000000)
     context = {
@@ -25,15 +25,14 @@ def home(request):
 # it takes in request, some template, extra context and produces results.  
 
   
-def home2(request):
+def about(request):
     context = {
     }
-    return render(request, "home2.html", context) 
+    return render(request, "about.html", context) 
 
 
 
-def home3(request):
+def contact(request):
     context = {
-
     }
-    return render(request, "home3.html", context) 
+    return render(request, "contact.html", context) 
