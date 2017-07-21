@@ -54,7 +54,7 @@ ROOT_URLCONF = 'muipicky.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #the path to where your templates are
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
