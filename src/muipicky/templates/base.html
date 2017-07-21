@@ -3,24 +3,18 @@
     <head>
     </head>
     <body>
-    <h1>Hello World!</h1>
-    <p> This is {{ html_var }} coming through </p> 
-    <!--having double curly brackets makes it a context variable. so whatever render in views.py linking to this 
-    html page, the context variable gets subbed for the variable passed in view.py-->
-    <p>
-    {% if boo_item %}
-    Random number is {{ num }}
-    {% endif %}
-    </p>
-    <p>
-    {% for some_item in some_list %}
-        {{ some_item }}<br>
-    {% endfor %}    
-    </p>
-    <p>
-    Some item is {{some_item}}
-    </p>
-    
+<h1>MUY PICKY</h1>
+<div class='container'>
+Num is  {{ num }} <br />
+{% if num|divisibleby:"2" %} 
+<p>Showing original block content because num is now odd!</p>
+    {% block content %}{% endblock content %}
+{% else %}
+    {% block content2 %}
+    <p>Showing Block content 2 because num is now even!</p>
+    {% endblock content2 %}
+{% endif %}
+</div>
 
-    </body>
-    </html>
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hello World!</h1>
+    <p> This is {{ html_var }} coming through </p> 
+    <!--having double curly brackets makes it a context variable. so whatever render in views.py linking to this 
+    html page, the context variable gets subbed for the variable passed in view.py-->
+    <p>
+    {% if num %}
+    Random number is {{ num }}
+    {% endif %}
+    </p>
+    <p>
+    {% for some_item in some_list %} 
+    <!--some_item is a variable that is only valid for inside the loop!-->
+    
+
+        {% if some_item|divisibleby:"2" %} 
+        <!--divisibleby is a django template tag!-->
+            Even number
+        {% endif %}
+
+        {{ some_item }}<br>
+    {% endfor %}    
+    </p>
+    <p>
+    Some item is {{some_item}}
+    </p>
+
+{% endblock content %}
+    
