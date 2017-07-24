@@ -15,15 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic import TemplateView
 
-from restaurants.views import home, about, contact, ContactView
+from restaurants.views import ContactView, HomeView, AboutView
 # function based views are lowercase and class based are uppercase
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home),
-    url(r'^about/$', about),
-    url(r'^contact/(?P<id>\d+)/$', ContactView.as_view()),
+    url(r'^$', HomeView.as_view()),
+    url(r'^about/$', TemplateView.as_view(template_name = 'about.html')),
+    url(r'^contact/(?P<id>\d+)/$', TemplateView.as_view(template_name = 'contact.html')),
 ]
 
 # because using class view need to create an instance of this class 
