@@ -16,11 +16,17 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from restaurants.views import home, about, contact
+from restaurants.views import home, about, contact, ContactView
+# function based views are lowercase and class based are uppercase
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home),
     url(r'^about/$', about),
-    url(r'^contact/$', contact),
+    url(r'^contact/(?P<id>\d+)/$', ContactView.as_view()),
 ]
+
+# because using class view need to create an instance of this class 
+    # therefore use .as_view() which makes it run like the function view (a callable base view. )
+    # change reg exp slightly to have ability to pass in eg. an id and allowing for
+    # some sort of argument to come in
