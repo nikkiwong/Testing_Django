@@ -10,3 +10,4 @@ analytics
 menu listings
 
 because everything is handled in URLs, need to put view into a URL (therefore go to urls.py in settings)
+shouldn't have too much logic in the template file, most should be in the view.py
