@@ -12,3 +12,8 @@ class RestaurantLocation(models.Model):
     # having auto_now to False means you can change the time and date in the admin. 
     updated         = models.DateTimeField(auto_now=True)
     # my_date_field   = models.DateField(auto_now=False, auto_now_add=False) 
+
+    # have to implement str method that allows us to return string instead of object
+    def __str__(self):
+        return self.name
+    
