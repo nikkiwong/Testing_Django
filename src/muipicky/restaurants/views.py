@@ -18,21 +18,22 @@ def restaurant_listview(request):
     return render(request, template_name, context)
 
 def restaurant_createview(request):
-    # if request.method == "GET":
-    #     print("get data")
-    if request.method == "POST":
-        title = request.POST.get("title")
-        # can use request.POST["title"] but we use .get because it means it could be empty
-        location = request.POST.get("location")
-        category = request.POST.get("category")
+    form = RestaurantCreateForm(request.POST or None)
+    errors = None
+    # errors is equal to None because we have to define it before we put it into context
+
+    if form.is_valid():
         obj = RestaurantLocation.objects.create(
-            name = title,
-            location = location,
-            category = category
-            )
-        return HttpResponseRedirect("/restaurants/")
+            name = form.cleaned_data.get('name'),
+            location = form.cleaned_data.get('location'),
+            category = form.cleaned_data.get('category')
+        )
+        return HttpResponseRedirect("/restaurants/")    
+    if form.errors:
+        errors = form.errors
+
     template_name = 'restaurants/form.html'
-    context = {} 
+    context = {"form": form, "errors": errors} 
     return render(request, template_name, context)
 
 # class based view
