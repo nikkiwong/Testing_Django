@@ -15,6 +15,7 @@ class RestaurantCreateForm(forms.Form):
         return name
 
 class RestaurantLocationCreateForm(forms.ModelForm):
+    # email   = forms.EmailField()
     class Meta:
         model = RestaurantLocation
         fields = [
@@ -22,7 +23,7 @@ class RestaurantLocationCreateForm(forms.ModelForm):
             'location',
             'category'
         ]
-        
+
     def clean_name(self):
         # this is a custom way to validate data.
         # this method is called when we validate the form in the views.py
@@ -30,3 +31,9 @@ class RestaurantLocationCreateForm(forms.ModelForm):
         if name == "Hello":
             raise forms.ValidationError("Not a valid name")
         return name
+
+    # def clean_email(self):
+    #     email = self.cleaned_data.get("email")
+    #     if ".edu" in email:
+    #         raise forms.ValidationError("We do not accept .edu email")
+    #     return email
