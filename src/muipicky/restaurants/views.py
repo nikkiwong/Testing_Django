@@ -35,14 +35,6 @@ class RestaurantListView(ListView):
 class RestaurantDetailView(DetailView):
     queryset = RestaurantLocation.objects.all() 
 
-    # def get_context_data(self, *args, **kwargs):
-    #     print(self.kwargs)
-    #     context = super(RestaurantDetailView, self).get_context_data(*args, **kwargs)
-    #     # calling the class itself to get its default context method
-    #     print(context)
-    #     return context
-    ## dont need this context data because we dont need it anymore. it was just used to discover what is in there.  
-    
     def get_object(self, *args, **kwargs):
         rest_id = self.kwargs.get('rest_id')
         obj = get_object_or_404(RestaurantLocation, id=rest_id) # pk = rest_id
