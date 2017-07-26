@@ -3,8 +3,17 @@
     
 <h1>MUY PICKY</h1>
 
-<a href="/"> Home </a><br>
+<!--<a href="/"> Home </a><br>
 <a href="/restaurants"> Restaurants </a><br>
 <a href="/about"> About </a><br>
-<a href="/contact"> Contact </a>
+<a href="/contact"> Contact </a>-->
+
+<a href='{% url "home" %}'> Home </a><br>
+<!--using this is better than above because it matches the path (from url.py) with the url name 
+from here and there. This is handy because you don't need to remember any complicated url paths, just 
+need to know the url name-->
+<a href='{% url "restaurants" %}'> Restaurants </a><br>
+<a href='{% url "about" %}'> About </a><br>
+<a href='{% url "contact" %}'> Contact </a>
+
 </div>
