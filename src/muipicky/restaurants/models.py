@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 
 from .utils import unique_slug_generator
+from .validators import validate_category
 
 # Create your models here.
 
@@ -10,7 +11,7 @@ class RestaurantLocation(models.Model):
     # models.Models is the class it's inheriting from so we can map whatever we type here to the db so we can save in the db
     name            = models.CharField(max_length=120)
     location        = models.CharField(max_length=120, null=True, blank=True)
-    category        = models.CharField(max_length=120, null=True, blank=True)
+    category        = models.CharField(max_length=120, null=True, blank=True, validators=[validate_category]) 
     timestamp       = models.DateTimeField(auto_now_add=True)
     # having auto_now to False means you can change the time and date in the admin. 
     updated         = models.DateTimeField(auto_now=True)
@@ -27,6 +28,7 @@ class RestaurantLocation(models.Model):
         return self.name # this allows us to write obj.title (as we have defined it as name ) 
     
 def rl_pre_save_receiver(sender, instance, *args, **kwargs):
+    instance.category = instance.category.capitalize()
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
         # dont need to call instance.save() because its about to be saved
