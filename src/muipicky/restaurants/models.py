@@ -24,7 +24,9 @@ class RestaurantLocation(models.Model):
 
     def get_absolute_url(self):
         # return f"/restaurants/{self.slug}"
-        return reverse('restaurant-detail', kwargs={'slug': self.slug})
+        return reverse('restaurants:detail', kwargs={'slug': self.slug})
+        # have to use restaurant:detail because we've put the restaurant app into a different urls.py file 
+        # therefore restaurants is now a namespace and detail is the name itself
         # kwargs = key word arguments. slug = key and self.slug = argument
     @property
     def title(self):
