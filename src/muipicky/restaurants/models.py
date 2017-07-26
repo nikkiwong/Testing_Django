@@ -1,14 +1,20 @@
+from django.conf import settings
+
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 
 from .utils import unique_slug_generator
 from .validators import validate_category
 
+User = settings.AUTH_USER_MODEL
+# this is a fail safe way to do a customized user model 
+
 # Create your models here.
 
 # created model and added an app therefore need to add to installed apps (in base.py)
 class RestaurantLocation(models.Model): 
     # models.Models is the class it's inheriting from so we can map whatever we type here to the db so we can save in the db
+    owner           = models.ForeignKey(User) # to get that object, need to use class_instance.model_set.all() 
     name            = models.CharField(max_length=120)
     location        = models.CharField(max_length=120, null=True, blank=True)
     category        = models.CharField(max_length=120, null=True, blank=True, validators=[validate_category]) 
