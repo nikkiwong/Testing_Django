@@ -20,14 +20,19 @@ def restaurant_listview(request):
 def restaurant_createview(request):
     form = RestaurantLocationCreateForm(request.POST or None)
     errors = None
-    # errors is equal to None because we have to define it before we put it into context
-
     if form.is_valid():
-        # can customize here
-        # pre_save
-        form.save()
-        # post_save
-        return HttpResponseRedirect("/restaurants/")    
+        if request.user.is_authenticated():
+            # need to turn the form into a potential instance, or instance thats going to happen but haven't saved yet
+            instance = form.save(commit=False)
+            # can customize here
+            # pre_save
+            instance.owner = request.user
+            instance.save()
+            # post_save
+            return HttpResponseRedirect("/restaurants/")    
+        else:
+            return HttpResponseRedirect("/login/")
+        # not the best practice!
     if form.errors:
         errors = form.errors
 
