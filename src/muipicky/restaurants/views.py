@@ -62,3 +62,15 @@ class RestaurantCreateView(CreateView):
     form_class = RestaurantLocationCreateForm
     template_name = 'restaurants/form.html'
     success_url = "/restaurants/"
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        # can customize here
+        # pre_save
+        instance.owner = self.request.user
+        # the request does come through on every single class based view, 
+        # but instead of being passed into individual functions we need to 
+        # do self.request!
+
+        # instance.save()
+        return super(RestaurantCreateView, self).form_valid(form)
