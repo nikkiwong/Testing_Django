@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from .forms import ItemForm
@@ -12,14 +13,22 @@ class ItemDetailView(DetailView):
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
 
-class ItemCreateView(CreateView):
+class ItemCreateView(LoginRequiredMixin, CreateView):
     template_name = 'form.html'
+    login_url = '/login/'
     form_class = ItemForm
 
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = self.request.user
         return super(ItemCreateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        #these are the arguments we are going to pass into our form class. So in form.py we have to 
+        # handle those arguments. 
+        kwargs = super(ItemCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
@@ -29,7 +38,7 @@ class ItemCreateView(CreateView):
         context['title'] = 'Create Item'
         return context 
 
-class ItemUpdateView(UpdateView):
+class ItemUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'form.html'
     form_class = ItemForm
     def get_queryset(self):
