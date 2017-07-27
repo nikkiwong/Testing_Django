@@ -23,17 +23,12 @@ def restaurant_createview(request):
     errors = None
     if form.is_valid():
         if request.user.is_authenticated():
-            # need to turn the form into a potential instance, or instance thats going to happen but haven't saved yet
             instance = form.save(commit=False)
-            # can customize here
-            # pre_save
             instance.owner = request.user
             instance.save()
-            # post_save
             return HttpResponseRedirect("/restaurants/")    
         else:
             return HttpResponseRedirect("/login/")
-        # not the best practice!
     if form.errors:
         errors = form.errors
 
@@ -41,13 +36,11 @@ def restaurant_createview(request):
     context = {"form": form, "errors": errors} 
     return render(request, template_name, context)
 
-# class based view
+
 class RestaurantListView(ListView):
      def get_queryset(self):
         slug = self.kwargs.get("slug")
-        # can use the .get because it is a dictionary itself
         if slug:
-            # use Q lookup for search because want it to be more dynamic and filter either one
             queryset = RestaurantLocation.objects.filter(
                 Q(category__iexact=slug) |
                 Q(category__icontains=slug)
@@ -62,19 +55,14 @@ class RestaurantDetailView(DetailView):
 class RestaurantCreateView(LoginRequiredMixin, CreateView):
     form_class = RestaurantLocationCreateForm
     login_url = '/login/'
-    template_name = 'restaurants/form.html'
-    # success_url = "/restaurants/"
+    template_name = '/form.html'
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        # making instance from form itself because its a createview so it HAS to be a model form, 
-        # not just a regular form. 
         instance.owner = self.request.user
-        # the request does come through on every single class based view, 
-        # but instead of being passed into individual functions we need to 
-        # do self.request!
-
-        # instance.save() <-- don't need this because by default CreateView runs a 
-        # form valid method, and at the end of that method, it does that save (in the line below 
-        # where you are returning the super). 
         return super(RestaurantCreateView, self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RestaurantCreateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Add Restaurant'
+        return context 
