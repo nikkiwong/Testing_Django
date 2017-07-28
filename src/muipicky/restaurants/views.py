@@ -9,34 +9,6 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 from .models import RestaurantLocation
 
-def restaurant_listview(request):
-    template_name = 'restaurants/restaurants_lists.html'
-    queryset = RestaurantLocation.objects.all()
-    context = {
-        "object_list": queryset
-    } 
-    return render(request, template_name, context)
-
-@login_required(login_url='/login/')
-def restaurant_createview(request):
-    form = RestaurantLocationCreateForm(request.POST or None)
-    errors = None
-    if form.is_valid():
-        if request.user.is_authenticated():
-            instance = form.save(commit=False)
-            instance.owner = request.user
-            instance.save()
-            return HttpResponseRedirect("/restaurants/")    
-        else:
-            return HttpResponseRedirect("/login/")
-    if form.errors:
-        errors = form.errors
-
-    template_name = 'restaurants/form.html'
-    context = {"form": form, "errors": errors} 
-    return render(request, template_name, context)
-
-
 class RestaurantListView(ListView):
      def get_queryset(self):
         slug = self.kwargs.get("slug")

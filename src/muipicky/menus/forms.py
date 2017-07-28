@@ -17,8 +17,9 @@ class ItemForm(forms.ModelForm):
         ]
 
     def __init__(self, user=None, *args, **kwargs):
-        # print(kwargs.pop('user'))
+        # print(kwargs.pop('user')) <-- this can be used instead of user=None. You can use either one. 
         print(user)
+        print(kwargs)
         super(ItemForm, self).__init__(*args,**kwargs)
         #all we are doing here is passing in a user now to our item form. 
-        self.fields['restaurant'].queryset = RestaurantLocation.objects.filter(owner=user)
+        self.fields['restaurant'].queryset = RestaurantLocation.objects.filter(owner=user) # .exclude(item__isnull=False)

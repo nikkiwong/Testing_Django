@@ -48,3 +48,9 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         context = super(ItemUpdateView, self).get_context_data(*args, **kwargs)
         context['title'] = 'Update Item'
         return context 
+
+    def get_form_kwargs(self):
+        #if we don't have this then the restaurant list will be empty
+        kwargs = super(ItemUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs

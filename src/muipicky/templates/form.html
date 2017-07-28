@@ -11,4 +11,9 @@
     {{ form.as_p }}
     <button type='submit'>Save</button>
 </form>
+
+{% if form.instance %}
+<h1>{{ form.instance.restaurant }}</h1>
+{% endif %}
+
 {% endblock %}
