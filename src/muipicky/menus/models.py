@@ -18,6 +18,9 @@ class Item(models.Model):
     # public if you want to share it with everyone in the world
     timestamp       = models.DateTimeField(auto_now_add=True)
     updated         = models.DateTimeField(auto_now=True)
+ 
+    def __str__(self):
+        return self.name
 
     def get_absolute_url(self):
         # return f"/restaurants/{self.slug}"
