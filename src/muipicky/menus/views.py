@@ -39,7 +39,7 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
         return context 
 
 class ItemUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'form.html'
+    template_name = 'menus/detail-update.html'
     form_class = ItemForm
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
@@ -54,3 +54,6 @@ class ItemUpdateView(LoginRequiredMixin, UpdateView):
         kwargs = super(ItemUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_queryset(self):
+        return Item.objects.filter(user=self.request.user)

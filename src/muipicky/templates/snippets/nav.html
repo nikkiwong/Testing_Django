@@ -8,12 +8,14 @@
 <a href="/about"> About </a><br>
 <a href="/contact"> Contact </a>-->
 
-<a href='{% url "home" %}'> Home </a><br>
+<a href='{% url "home" %}'> Home </a>
 <!--using this is better than above because it matches the path (from url.py) with the url name 
 from here and there. This is handy because you don't need to remember any complicated url paths, just 
 need to know the url name-->
-<a href='{% url "restaurants:list" %}'> Restaurants </a><br>
-<a href='{% url "about" %}'> About </a><br>
+<a href='{% url "about" %}'> About </a>
 <a href='{% url "contact" %}'> Contact </a>
-
+{% if  request.user.is_authenticated %}
+<a href='{% url "restaurants:list" %}'> Restaurants </a>
+<a href='{% url "menus:list" %}'> Menu Items </a>
+{% endif %}
 </div>
