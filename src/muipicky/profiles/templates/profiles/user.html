@@ -3,38 +3,44 @@
 
 {% block content %}
 <h1>{{ user.username }} </h1>
-
+<form class='form' method='GET' action='.'>
+<input type='text' placeholder="Seach.." name='q' value='{{ request.GET.q }}'>
+<button class='btn btn-default' type='submit'>Search</button>
+</form>
 <hr />
-{% if user.item_set.all.exists %}
-{% for rest in user.restaurantlocation_set.all %}
-<!--getting the name of restaurant associated to the user-->
+{% if locations %}     
+{% for rest in locations %}
+<!--getting the  name of restaurant associated to the user-->
     <div class='row'>
     <div class='col-sm-12'>
         <div class='thumbnail'>
             <h4>{{ rest.title }}</h4> 
-            <p>{{ rest.location }} | {{ rest.category }}</p>
-        <p><b>Items</b></p>
+            <p><a href='{{ request.path }}?q={{ rest.location }}'>{{ rest.location }}</a> | <a href='{{ request.path }}?q={{ rest.category }}'>{{ rest.category }}</a></p>
+
         <!--now we try get the items inside the restaurant-->
-        <ul>
+            <ul>    
             {% for item in rest.item_set.all %}
-                <li style='margin-bottom:15px;'>{{ item.name }} <br />
-                        {% for ing in item.get_contents %}
-                        <span class>{{ ing }},</span>
+                <li style='margin-bottom:15px;'><b>{{ item.name }}</b> <br />
+                    <!--{{ item.contents }}-->
+                    {% for ing in item.get_contents %}
+                        <a href='{{ request.path }}?q={{ ing }}'>{{ ing }}</a>
+                        <!--here you are making every ingredient searchable by simply clicking it-->
+                    {% endfor %}
+                        <!--{% for ing in item.get_contents %}
+                        <span class='badge badge-default'>{{ ing }},</span>
                         {% endfor %}
                         {% for ing in item.get_contents %}
                         <span style='padding: 2px 4px; margin-right:4px; background-color:#ccc'>{{ ing }},</span>
-                        {% endfor %}
+                        {% endfor %}-->
                 </li>
             {% endfor %}
-        </ul>
-        <p>
-        <hr />
+            </ul>
+            </p>
+        </div>
     </div>
     </div>    
 {% endfor %} 
-
 {% else %}
 <p class='lead'> No Items Found </p>
 {% endif %}
-
 {% endblock %}
