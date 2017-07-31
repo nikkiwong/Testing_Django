@@ -3,11 +3,7 @@
 
 {% block content %}
 <h1>{{ user.username }} </h1>
-{% if user.profile in request.user.is_following.all %}
-<!--'request.user.is_following.all' gives back user profile query set, not a user queryset hence why we use 'user.profile'-->
-    Is Following 
-{% endif %}
-<p>{% include 'profiles/snippet/follow_form.html' with username=user.username %}</p>
+<p>{% include 'profiles/snippet/follow_form.html' with username=user.username is_following=is_following %}</p>
 <form class='form' method='GET' action='.'>
 <input type='text' placeholder="Seach.." name='q' value='{{ request.GET.q }}'>
 <button class='btn btn-default' type='submit'>Search</button>

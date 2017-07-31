@@ -15,14 +15,18 @@ class ProfileFollowToggle(LoginRequiredMixin, View): # endpoint
     def post(self, request, *args, **kwargs):
         # print(request.data)
         # print(request.POST)
-        user_to_toggle = request.POST.get("username")
-        profile_ = Profile.objects.get(user__username__iexact=user_to_toggle)
-        user = request.user
-        if user in profile_.followers.all: 
-            profile_.followers.remove(user)
-        else:
-            profile_.followers.add(user)
-        return redirect("/u/nikki/")
+        username_to_toggle = request.POST.get("username")
+        profile_, is_following = Profile.objects.toggle_follow(request.user, username_to_toggle)
+        print(is_following)
+        # profile_ = Profile.objects.get(user__username__iexact=user_to_toggle)
+        # user = request.user
+        # if user in profile_.followers.all(): 
+        #     profile_.followers.remove(user)
+        # else:
+        #     profile_.followers.add(user)
+        return redirect(f"/u/{profile_.user.username}/")
+    # This logic though SHOULD exist inside the model!!!!
+
 
 class ProfileDetailView(DetailView):
     # queryset = User.objects.filter(is_active=True)
