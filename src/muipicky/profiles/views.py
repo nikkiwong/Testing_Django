@@ -2,14 +2,25 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import DetailView, View
+from django.views.generic import DetailView, View, CreateView
 
 from menus.models import Item
 from restaurants.models import RestaurantLocation
 
-
+from .forms import RegisterForm
 from .models import Profile
 User = get_user_model()
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = '/'
+    # sends them to homepage, because want to send them an email to verify this registration
+
+    def dispatch(self, *args, **kwargs): # override function 
+        # if self.request.user.is_authenticated():
+        #     return redirect("/logout")
+        return super(RegisterView, self).dispatch(*args, **kwargs)
 
 class ProfileFollowToggle(LoginRequiredMixin, View): # endpoint
     def post(self, request, *args, **kwargs):

@@ -29,6 +29,10 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def send_activation_email(self):
+        print("activating")
+        pass
+
 def post_save_user_receiver(sender, instance, created, *args, **kwargs):
     # after user is saved or created, want to make sure the profile exists
     if created:
