@@ -1,49 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class='row'>
+<div class='col-sm-6 text-center col-sm-offset-3'>
+<h1>User Following Feed</h1>
+
 {% for obj in object_list %}
 
-    <div class='row'>
-    <div class='col-sm-12'>
         <div class='thumbnail'>
-            <h4>{{ rest.title }}</h4> 
-            <p><a href='{{ request.path }}?q={{ rest.location }}'>{{ rest.location }}</a> | <a href='{{ request.path }}?q={{ rest.category }}'>{{ rest.category }}</a></p>
-
+        <h3><a href='{% url "profiles:detail" username=obj.user.username %}'> {{ obj.user.username }}</a></h3>
+        <h4>{{ obj.name }}</h4> 
+        <p><a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.title }}'>{{ obj.restaurant.title }}</a> | 
+        <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.location }}'>{{ obj.restaurant.location }} </a>| 
+        <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ obj.restaurant.category }}'>{{ obj.restaurant.category }}</a> </p>
+        <p>
         <!--now we try get the items inside the restaurant-->
-            <ul>    
-                <li style='margin-bottom:15px;'><b>{{ item.name }}</b> <br />
+            <b>{{ obj.name }}</b>: with
                     {% for ing in obj.get_contents %}
-                        <a href='{{ request.path }}?q={{ ing }}'>{{ ing }}</a>
+                        <a href='{% url "profiles:detail" username=obj.user.username %}?q={{ ing }}'>{{ ing }}</a>
                     {% endfor %}
                 </li>
-            {% endfor %}
+
             </ul>
             </p>
         </div>
+
+    {% endfor %}
     </div>
     </div>   
-
-    <li><a href='{{ obj.get_absolute_url}}'>{{ obj.name }} </a><br/>    
-        {%if obj.contents %}
-        Contents
-        <ul>
-            {% for item in obj.get_contents %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% if obj.excludes %}
-        Excludes
-        <ul>
-            {% for item in obj.get_excludes %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ul>   
-        {% endif %}
-    </li>
-    {% empty %}
-    <li><a href='{% url "menus:create" %}'>Add Menu Item </a></li>
-
-{% endfor %}
-</ul>   
 {% endblock %}
